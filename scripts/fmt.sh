@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # 检查 goimports 是否安装
 if ! command -v goimports >/dev/null 2>&1; then

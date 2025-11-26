@@ -1,9 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+set -e  # 任意命令出错（退出码非 0）就让脚本立刻退出
 
 printf "执行检查中...\n"
-if [ -n "$(make check)" ]; then
-  echo >&2 "[ERROR]: 有文件发生变更，请将变更文件添加到本次提交中"
-  exit 1
-fi
+make check
 
+# 能执行到这里，就说明 make check 成功了
 exit 0

@@ -38,10 +38,10 @@ e2e_down:
 
 .PHONY: e2e
 e2e:
-	@$(MAKE) e2e_down
-	@$(MAKE) e2e_up
+	@#$(MAKE) e2e_down
+	@#$(MAKE) e2e_up
 	@go test -race -shuffle=on -failfast -tags=e2e ./...
-	@$(MAKE) e2e_down
+	@#$(MAKE) e2e_down
 
 # 基准测试
 .PHONY:	bench

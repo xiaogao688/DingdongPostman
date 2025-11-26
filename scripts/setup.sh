@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SOURCE_COMMIT=./scripts/git/pre-commit
 TARGET_COMMIT=.git/hooks/pre-commit
