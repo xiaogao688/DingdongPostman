@@ -35,3 +35,9 @@ dist/
 
 go.work
 go.work.sum
+
+config/env.sh
+
+logs
+*.md
+*.txt

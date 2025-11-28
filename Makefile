@@ -40,7 +40,7 @@ e2e_down:
 e2e:
 	@#$(MAKE) e2e_down
 	@#$(MAKE) e2e_up
-	@go test -race -shuffle=on -failfast -tags=e2e ./...
+	go test -race -shuffle=on -failfast -tags=e2e ./...
 	@#$(MAKE) e2e_down
 
 # 基准测试

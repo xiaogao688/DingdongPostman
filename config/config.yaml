@@ -1,0 +1,48 @@
+# 日志配置
+logger:
+  # 日志级别: debug, info, warn, error, fatal
+  level: info
+
+  # 是否输出到终端
+  console: true
+
+  # 文件日志配置
+  file:
+    # 是否启用文件日志
+    enabled: true
+    # 日志文件路径
+    path: ./logs/app.log
+    # 单个日志文件最大大小（MB）
+    max_size: 100
+    # 保留的最大备份文件数
+    max_backups: 10
+    # 日志文件最大保留天数
+    max_age: 30
+    # 是否压缩备份文件
+    compress: true
+
+  # 阿里云日志服务配置
+  aliyun:
+    # 是否启用阿里云日志服务
+    enabled: true
+    # 阿里云日志服务端点（从环境变量读取：ALIYUN_LOG_ENDPOINT）
+    endpoint: "cn-beijing.log.aliyuncs.com"
+    # 项目名称（从环境变量读取：ALIYUN_LOG_PROJECT）
+    project: "oss-log-1841834992570347-cn-beijing"
+    # Logstore 名称
+    logstore: "my-log-test1"
+    # 地域信息（从环境变量读取：ALIYUN_LOG_REGION）
+    region: "cn-beijing"
+    # 访问密钥 ID（从环境变量读取：ALIYUN_ACCESS_KEY_ID）
+    access_key_id: ""
+    # 访问密钥密码（从环境变量读取：ALIYUN_ACCESS_KEY_SECRET）
+    access_key_secret: ""
+    # 日志主题
+    topic: app-log
+    # 日志来源（通常是主机名或 IP）
+    source: localhost
+    # 批量写入日志的大小
+    batch_size: 100
+    # 刷新间隔（秒）
+    flush_interval: 1
+
