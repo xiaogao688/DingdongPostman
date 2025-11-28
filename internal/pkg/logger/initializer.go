@@ -13,6 +13,8 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+const defaultDirPerm os.FileMode = 0o755
+
 // Initializer 日志初始化器，遵循 IoC 设计原则
 type Initializer struct {
 	config *Config
@@ -110,7 +112,7 @@ func (i *Initializer) Init() (Logger, error) {
 func (i *Initializer) createFileCore(encoderConfig zapcore.EncoderConfig, level zapcore.Level) (zapcore.Core, error) {
 	// 创建日志目录
 	dir := filepath.Dir(i.config.File.Path)
-	if err := os.MkdirAll(dir, 0755); err != nil {
+	if err := os.MkdirAll(dir, defaultDirPerm); err != nil {
 		return nil, fmt.Errorf("failed to create log directory: %w", err)
 	}
 

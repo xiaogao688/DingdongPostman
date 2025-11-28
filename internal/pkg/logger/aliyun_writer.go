@@ -10,6 +10,21 @@ import (
 	"github.com/gogo/protobuf/proto"
 )
 
+// unixToUint32 returns a clamped uint32 representation of t.Unix().
+// It prevents potential int64->uint32 overflows (gosec G115) by bounding the value.
+func unixToUint32(t time.Time) uint32 {
+	sec := t.Unix()
+	if sec < 0 {
+		return 0
+	}
+	// max uint32 value as int64
+	const maxUint32 = ^uint32(0)
+	if sec > int64(maxUint32) {
+		return maxUint32
+	}
+	return uint32(sec)
+}
+
 // AliyunWriter 阿里云日志写入器
 type AliyunWriter struct {
 	client        sls.ClientInterface
@@ -124,7 +139,7 @@ func (w *AliyunWriter) flushLocked() {
 	// 创建日志组
 	logs := make([]*sls.Log, 0, len(w.buffer)/10+1)
 	currentLog := &sls.Log{
-		Time:     proto.Uint32(uint32(time.Now().Unix())),
+		Time:     proto.Uint32(unixToUint32(time.Now())),
 		Contents: make([]*sls.LogContent, 0),
 	}
 
@@ -136,7 +151,7 @@ func (w *AliyunWriter) flushLocked() {
 			logs = append(logs, currentLog)
 			if i < len(w.buffer)-1 {
 				currentLog = &sls.Log{
-					Time:     proto.Uint32(uint32(time.Now().Unix())),
+					Time:     proto.Uint32(unixToUint32(time.Now())),
 					Contents: make([]*sls.LogContent, 0),
 				}
 			}

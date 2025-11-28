@@ -25,7 +25,10 @@ func main() {
 		fmt.Printf("初始化日志失败: %v\n", err)
 		os.Exit(1)
 	}
-	defer appLogger.GetGlobal().Sync()
+	defer func() {
+		_ = appLogger.GetGlobal().Sync()
+	}()
+
 	// 获取全局 Logger 实例
 	log := appLogger.GetGlobal()
 
@@ -35,6 +38,5 @@ func main() {
 		zap.String("str1", "str1----xxxx"),
 		zap.String("str2", "str2----xxxx"),
 		zap.Bool("bool", true))
-	//time.Sleep(time.Second * 10)
 	fmt.Printf("App: %s | Env: %s | Version: %s\n", cfg.App.Name, cfg.App.Env, cfg.App.Version)
 }

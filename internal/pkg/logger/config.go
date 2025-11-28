@@ -37,6 +37,14 @@ type AliyunConfig struct {
 	FlushInterval   int    `yaml:"flush_interval" mapstructure:"flush_interval" default:"5"`
 }
 
+const (
+	defaultFileMaxSizeMB       = 100
+	defaultFileMaxBackups      = 10
+	defaultFileMaxAgeDays      = 30
+	defaultAliyunBatchSize     = 100
+	defaultAliyunFlushInterval = 5
+)
+
 // DefaultConfig 返回默认配置
 func DefaultConfig() *Config {
 	return &Config{
@@ -45,17 +53,17 @@ func DefaultConfig() *Config {
 		File: &FileConfig{
 			Enabled:    false,
 			Path:       "./logs/app.log",
-			MaxSize:    100,
-			MaxBackups: 10,
-			MaxAge:     30,
+			MaxSize:    defaultFileMaxSizeMB,
+			MaxBackups: defaultFileMaxBackups,
+			MaxAge:     defaultFileMaxAgeDays,
 			Compress:   true,
 		},
 		Aliyun: &AliyunConfig{
 			Enabled:       false,
 			Topic:         "app-log",
 			Source:        "localhost",
-			BatchSize:     100,
-			FlushInterval: 5,
+			BatchSize:     defaultAliyunBatchSize,
+			FlushInterval: defaultAliyunFlushInterval,
 		},
 	}
 }

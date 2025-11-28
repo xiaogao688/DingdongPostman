@@ -59,6 +59,13 @@ linters-settings:
     lines: 100
     statements: 40
 
+  tagliatelle:
+    case:
+      rules:
+        yaml: snake
+        mapstructure: snake
+        json: snake
+
 # https://olegk.dev/go-linters-configuration-the-right-version
 linters:
   # Set to true runs only fast linters.
@@ -133,8 +140,6 @@ linters:
 
     # Might not be that important, but I prefer to keep all of them.
     # `gofumpt` is amazing, kudos to Daniel Marti https://github.com/mvdan/gofumpt
-    - gofmt
-    - gofumpt
     - goimports
 
     # Allow or ban replace directives in go.mod
