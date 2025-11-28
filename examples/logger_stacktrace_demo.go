@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/dingdong-postman/internal/pkg/logger"
-	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
