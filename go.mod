@@ -5,6 +5,7 @@ go 1.24.0
 require (
 	github.com/aliyun/aliyun-log-go-sdk v0.1.68
 	github.com/gogo/protobuf v1.3.2
+	github.com/redis/go-redis/v9 v9.7.0
 	github.com/spf13/viper v1.19.0
 	go.uber.org/zap v1.27.0
 	google.golang.org/grpc v1.77.0
@@ -14,6 +15,8 @@ require (
 
 require (
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-kit/kit v0.10.0 // indirect
 	github.com/go-logfmt/logfmt v0.5.0 // indirect

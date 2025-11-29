@@ -46,3 +46,28 @@ logger:
     # 刷新间隔（秒）
     flush_interval: 1
 
+# Redis 配置
+redis:
+  # 是否启用 Redis
+  enabled: true
+  # Redis 服务器地址 (host:port)
+  addr: "r-2zehlhkynindrqk2eepd.redis.rds.aliyuncs.com:6379"
+  # Redis 用户名（Redis 6.0+ 支持 ACL，留空则不使用）
+  username: "r-2zehlhkynindrqk2ee"
+  # Redis 密码（可从环境变量读取，见 password_env_var）
+  password: ""
+  # 密码环境变量名称（默认为 REDIS_PASSWORD）
+  # 优先从环境变量读取，如果环境变量不存在则使用 password 字段
+  password_env_var: "REDIS_PASSWORD"
+  # Redis 数据库编号
+  db: 0
+  # 最大重试次数
+  max_retries: 3
+  # 连接池大小
+  pool_size: 10
+  # 连接超时时间（秒）
+  dial_timeout: 5
+  # 读超时时间（秒）
+  read_timeout: 3
+  # 写超时时间（秒）
+  write_timeout: 3

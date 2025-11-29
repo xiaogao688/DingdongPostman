@@ -21,6 +21,9 @@ type AppConfig struct {
 	// 日志配置（已实现：控制台、文件、阿里云日志服务）
 	// 注意：日志配置定义在本模块中，避免循环依赖
 	Logger LoggerConfig `yaml:"logger" mapstructure:"logger"`
+
+	// Redis 配置
+	Redis RedisConfig `yaml:"redis" mapstructure:"redis"`
 }
 
 // Default 返回项目的默认配置
@@ -31,6 +34,7 @@ func Default() *AppConfig {
 	cfg.App.Version = "0.1.0"
 
 	cfg.Logger = *DefaultLoggerConfig()
+	cfg.Redis = *DefaultRedisConfig()
 	return cfg
 }
 

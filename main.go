@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"time"
 
 	appConfig "github.com/dingdong-postman/internal/pkg/config"
 	appLogger "github.com/dingdong-postman/internal/pkg/logger"
+	appRedis "github.com/dingdong-postman/internal/pkg/redis"
 	"go.uber.org/zap"
 )
 
@@ -32,11 +34,36 @@ func main() {
 	// 获取全局 Logger 实例
 	log := appLogger.GetGlobal()
 
-	// 3) 示例输出
-	log.Info("应用启动成功,shi", zap.Time("start_time", time.Now()))
-	log.Error("这是一个错误示范",
-		zap.String("str1", "str1----xxxx"),
-		zap.String("str2", "str2----xxxx"),
-		zap.Bool("bool", true))
+	// 3) 初始化全局 Redis 客户端
+	if cfg.Redis.Enabled {
+		if err := appRedis.InitGlobal(&cfg.Redis); err != nil {
+			log.Warn("初始化 Redis 失败", zap.Error(err))
+		} else {
+			defer func() {
+				_ = appRedis.Close()
+			}()
+			log.Info("Redis 初始化成功", zap.String("addr", cfg.Redis.Addr))
+		}
+	}
+
 	fmt.Printf("App: %s | Env: %s | Version: %s\n", cfg.App.Name, cfg.App.Env, cfg.App.Version)
+
+	// 4) Redis 使用示例（如果已初始化）
+	const timeout = 60 * time.Second
+	if cfg.Redis.Enabled {
+		err = appRedis.GetGlobal().Set(context.Background(), "test_key", "test_value", timeout)
+		if err != nil {
+			log.Error("Redis Set 失败", zap.Error(err))
+		} else {
+			log.Info("Redis Set 成功", zap.String("key", "test_key"), zap.String("value", "test_value"))
+		}
+
+		// 获取 Redis 值
+		getValue, err := appRedis.GetGlobal().Get(context.Background(), "test_key")
+		if err != nil {
+			log.Error("Redis Get 失败", zap.Error(err))
+		} else {
+			log.Info("Redis Get 成功", zap.String("key", "test_key"), zap.String("value", getValue))
+		}
+	}
 }

@@ -153,6 +153,9 @@ func bindEnvKeys(v *viper.Viper) {
 		"logger.aliyun.source":            "LOGGER_ALIYUN_SOURCE",
 		"logger.aliyun.batch_size":        "LOGGER_ALIYUN_BATCH_SIZE",
 		"logger.aliyun.flush_interval":    "LOGGER_ALIYUN_FLUSH_INTERVAL",
+
+		// Redis配置
+		"redis.password": "REDIS_PASSWORD",
 	}
 	for key, env := range pairs {
 		_ = v.BindEnv(key, env)
