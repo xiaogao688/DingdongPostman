@@ -8,6 +8,7 @@ import (
 
 	appConfig "github.com/dingdong-postman/internal/pkg/config"
 	appLogger "github.com/dingdong-postman/internal/pkg/logger"
+	appMySQL "github.com/dingdong-postman/internal/pkg/mysql"
 	appRedis "github.com/dingdong-postman/internal/pkg/redis"
 	"go.uber.org/zap"
 )
@@ -46,9 +47,21 @@ func main() {
 		}
 	}
 
+	// 4) 初始化全局 MySQL 数据库连接
+	if cfg.MySQL.Enabled {
+		if err := appMySQL.InitGlobal(&cfg.MySQL); err != nil {
+			log.Warn("初始化 MySQL 失败", zap.Error(err))
+		} else {
+			defer func() {
+				_ = appMySQL.Close()
+			}()
+			log.Info("MySQL 初始化成功", zap.String("host", cfg.MySQL.Host), zap.Int("port", cfg.MySQL.Port), zap.String("database", cfg.MySQL.Database))
+		}
+	}
+
 	fmt.Printf("App: %s | Env: %s | Version: %s\n", cfg.App.Name, cfg.App.Env, cfg.App.Version)
 
-	// 4) Redis 使用示例（如果已初始化）
+	// 5) Redis 使用示例（如果已初始化）
 	const timeout = 60 * time.Second
 	if cfg.Redis.Enabled {
 		err = appRedis.GetGlobal().Set(context.Background(), "test_key", "test_value", timeout)
@@ -64,6 +77,19 @@ func main() {
 			log.Error("Redis Get 失败", zap.Error(err))
 		} else {
 			log.Info("Redis Get 成功", zap.String("key", "test_key"), zap.String("value", getValue))
+		}
+	}
+
+	// 6) MySQL 使用示例（如果已初始化）
+	if cfg.MySQL.Enabled {
+		db := appMySQL.GetGlobal()
+		if db != nil {
+			// 测试数据库连接
+			if err := db.WithContext(context.Background()).Exec("SELECT 1").Error; err != nil {
+				log.Error("MySQL 查询失败", zap.Error(err))
+			} else {
+				log.Info("MySQL 连接测试成功")
+			}
 		}
 	}
 }

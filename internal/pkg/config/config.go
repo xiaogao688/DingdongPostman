@@ -24,6 +24,9 @@ type AppConfig struct {
 
 	// Redis 配置
 	Redis RedisConfig `yaml:"redis" mapstructure:"redis"`
+
+	// MySQL 配置
+	MySQL MySQLConfig `yaml:"mysql" mapstructure:"mysql"`
 }
 
 // Default 返回项目的默认配置
@@ -35,6 +38,7 @@ func Default() *AppConfig {
 
 	cfg.Logger = *DefaultLoggerConfig()
 	cfg.Redis = *DefaultRedisConfig()
+	cfg.MySQL = *DefaultMySQLConfig()
 	return cfg
 }
 
